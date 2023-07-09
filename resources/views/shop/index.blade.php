@@ -89,7 +89,12 @@
                                  alt="">
                             <div class="card-body ">
                                 <p class="product-title">{{ substr($product->title,0,35) }}..</p>
-                                <p class="product-price">Rs.{{ number_format($product->price) }}</p>
+                                @if($product->onSale)
+                                    <small class="line-through text-dark">Rs. {{ $product->price }}</small>
+                                    <p class="product-price">Rs.{{ number_format($product->sale_price) }}</p>
+                                @else
+                                    <p class="product-price">Rs.{{ number_format($product->price) }}</p>
+                                @endif
                             </div>
                         </div>
                     </a>

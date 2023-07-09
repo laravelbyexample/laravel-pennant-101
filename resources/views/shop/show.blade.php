@@ -58,7 +58,15 @@
 
                                 <div class="my-2">
                                     <h4>Price:</h4>
-                                    <p class="text-orange h4">Rs.{{ number_format($product->price) }}</p>
+                                    @if($product->onSale)
+                                        <p class="text-orange h4">Rs.{{number_format($product->sale_price)}}</p>
+                                        <p>
+                                            <span class="line-through h5"> Rs.{{$product->price}}</span>
+                                            <span class="btn btn-primary disabled ml-3"> {{ floor((($product->price - $product->sale_price)/$product->price)*100) }}% off</span>
+                                        </p>
+                                    @else
+                                        <p class="text-orange h4">Rs.{{number_format($product->price)}}</p>
+                                    @endif
                                 </div>
 
                                 <div class="my-3">
