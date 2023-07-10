@@ -2,22 +2,31 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Requests\User\OrderRequest;
 use App\Models\Cart;
+use App\Models\Order as OrderModel;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class Order
 {
-    public function store(Request $request): RedirectResponse
+    public function __invoke(OrderRequest $request, Cart $cartModel): RedirectResponse
     {
-        $cart = Cart::findOrFail($request->cart_id)->with('product')->first();
+        /** @var Cart $cart */
+        $cart = $cartModel->newQuery()
+            ->findOrFail($request->cart_id)
+            ->with('product')
+            ->first();
 
-        $order = new \App\Models\Order();
-        $order->user_id = Auth::user()->getAuthIdentifier();
+        /** @var User $user */
+        $user = Auth::user();
+
+        $order = new OrderModel();
+        $order->user_id = $user->getAuthIdentifier();
         $order->product_id = $cart->product->id;
         $order->quantity = $request->quantity;
 
