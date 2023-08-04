@@ -178,6 +178,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\FeatureFlagsServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        // App\Tracing\TracingServiceProvider::class,
 
     ],
 

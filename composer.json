@@ -11,6 +11,7 @@
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.5",
+        "jonahgeorge/jaeger-client-php": "^1.4",
         "laravel/fortify": "^1.6",
         "laravel/framework": "^10.14",
         "laravel/octane": "^2.0",
