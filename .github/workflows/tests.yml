@@ -10,21 +10,6 @@ jobs:
   linux_tests:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: pass
-          MYSQL_DATABASE: laravel
-        ports:
-          - 33306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-      redis:
-        image: redis:5.0
-        ports:
-          - 6379:6379
-        options: --entrypoint redis-server
-
     strategy:
       fail-fast: true
       matrix:
@@ -58,9 +43,7 @@ jobs:
         run: cp .env.example .env && php artisan key:generate
 
       - name: Migration
-        run: php artisan migrate:fresh --seed
-        env:
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+        run: touch database/database.sqlite && php artisan migrate:fresh --seed
 
       - name: Execute tests
         run: php -d xdebug.mode=coverage vendor/bin/phpunit
